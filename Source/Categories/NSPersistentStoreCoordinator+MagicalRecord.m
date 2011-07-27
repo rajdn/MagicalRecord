@@ -35,13 +35,11 @@ static NSPersistentStoreCoordinator *defaultCoordinator_ = nil;
 - (void) createPathToStoreFileIfNeccessary:(NSURL *)urlForStore
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *pathToStore = [urlForStore URLByDeletingLastPathComponent];
+    NSString *pathToStore = [[urlForStore URLByDeletingLastPathComponent] absoluteString];
     
     NSError *error = nil;
-    BOOL pathWasCreated = [fileManager createDirectoryAtURL:pathToStore withIntermediateDirectories:YES attributes:nil error:&error];
-
-    if (!pathWasCreated) 
-    {
+    BOOL pathWasCreated = [fileManager createDirectoryAtPath:pathToStore withIntermediateDirectories:YES attributes:nil error:&error];
+    if (!pathWasCreated) {
         [MagicalRecordHelpers handleErrors:error];
     }
 }
